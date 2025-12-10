@@ -1,0 +1,32 @@
+## Ensemble Learning(Bagging)
+# bagging meta - estimator and random forest 
+# Regression data
+
+import pandas as pd 
+
+dataset = pd.read_csv("averaging.csv") # storage ke averaging.csv file a ta
+
+x = dataset.iloc[: , : -1]
+y = dataset["package"]
+
+from sklearn.model_selection import train_test_split
+
+x_train , x_test , y_train , y_test = train_test_split(x , y ,test_size = 0.20 , random_state = 52) # test_size parameter  , 20% data testing korbeor 80% data training korbe  # random_state parameter me accuracy ভালো করা হবে।
+
+from sklearn.ensemble import BaggingRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import LinearRegression 
+
+# bagging meta - estimator 
+
+bg =  BaggingRegressor(estimator = LinearRegression() , n_estimators = 20)
+fit = bg.fit(x_train , y_train)
+
+print(bg.score(x_test , y_test) * 100 , bg.score(x_train , y_train) * 100 ) # কত‌ precentage accuracy(নির্ভুলতা) ভালো দিছে তা দেখাবে ।
+
+# random forest
+
+rf = RandomForestRegressor(n_estimators = 20)
+fit = rf.fit(x_train , y_train)
+
+print(rf.score(x_test , y_test) * 100 , rf.score(x_train , y_train) * 100 ) # কত‌ precentage accuracy(নির্ভুলতা) ভালো দিছে তা দেখাবে ।
